@@ -1,20 +1,20 @@
 import numpy as np
 
 def generate_horizontal_plane(width, length, num_points):
-    x = np.random.uniform(0, width, num_points)
-    y = np.random.uniform(0, length, num_points)
+    x = np.random.uniform(-width / 2, width / 2, num_points)
+    y = np.random.uniform(-length / 2, length / 2, num_points)
     z = np.zeros(num_points)
     return np.column_stack((x, y, z))
 
 def generate_vertical_plane(width, height, num_points):
-    x = np.random.uniform(0, width, num_points)
-    y = np.zeros(num_points)
-    z = np.random.uniform(0, height, num_points)
+    x = np.zeros(num_points)
+    y = np.random.uniform(-width / 2, width / 2, num_points)
+    z = np.random.uniform(-height / 2, height / 2, num_points)
     return np.column_stack((x, y, z))
 
 def generate_cylinder(radius, height, num_points):
     theta = np.random.uniform(0, 2 * np.pi, num_points)
-    z = np.random.uniform(0, height, num_points)
+    z = np.random.uniform(-height / 2, height / 2, num_points)
     x = radius * np.cos(theta)
     y = radius * np.sin(theta)
     return np.column_stack((x, y, z))
@@ -35,4 +35,3 @@ if __name__ == "__main__":
     save_to_xyz("cylinder.xyz", cylinder)
     
     print("Pliki xyz zostały zapisane.")
-
