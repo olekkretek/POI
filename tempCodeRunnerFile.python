@@ -1,0 +1,49 @@
+import os
+import sys
+import subprocess
+
+# Check if Python is installed
+if not sys.executable:
+    print("Python nie jest zainstalowany. Pobierz i zainstaluj Python ze strony https://www.python.org/downloads/")
+    sys.exit(1)
+
+# Check if matplotlib is installed
+try:
+    import matplotlib.pyplot as plt
+    from matplotlib.dates import date2num
+except ImportError:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "matplotlib"])
+    import matplotlib.pyplot as plt
+    from matplotlib.dates import date2num
+
+import datetime
+
+# Define task data
+tasks = [
+    {'task': 'Research', 'start': '2025-03-01', 'end': '2025-03-14'},
+    {'task': 'Testowanie wybranych sensorów', 'start': '2025-03-15', 'end': '2025-03-28'},
+    {'task': 'Integracja systemu na płytce rozwojowej', 'start': '2025-03-29', 'end': '2025-04-11'},
+    {'task': 'Wdrażanie funkcjonalności pojazdu', 'start': '2025-04-12', 'end': '2025-05-09'},
+    {'task': 'Opracowywanie algorytmu', 'start': '2025-05-10', 'end': '2025-06-06'},
+    {'task': 'Projekt obudowy', 'start': '2025-05-10', 'end': '2025-06-06'},
+    {'task': 'Testy', 'start': '2025-06-07', 'end': '2025-06-30'},
+]
+
+# Prepare data for plotting
+fig, ax = plt.subplots(figsize=(10, 6))
+
+for i, task in enumerate(tasks):
+    start_date = datetime.datetime.strptime(task['start'], "%Y-%m-%d")
+    end_date = datetime.datetime.strptime(task['end'], "%Y-%m-%d")
+    ax.barh(task['task'], (end_date - start_date).days, left=date2num(start_date), color='skyblue')
+
+ax.set_xlabel('Data')
+ax.set_ylabel('Zadania')
+ax.set_title('Wykres Gantta')
+
+# Formatting date labels
+ax.xaxis_date()
+fig.autofmt_xdate()
+plt.grid(axis='x', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
